@@ -7,33 +7,33 @@ from datetime import datetime
 from shortuuid.django_fields import ShortUUIDField
 
 # Custom User Model
-# class User(AbstractUser):
-#     username = models.CharField(max_length=255, unique=True)  # Should be unique for AbstractUser
-#     user_type_choices = (
-#         ('admin', 'admin'),
-#         ('super admin', 'super admin'),
-#         ('sales agent', 'sales agent'),
-#         ('collection agent', 'collection agent'),
-#     )
-#     user_type = models.CharField(max_length=255, choices=user_type_choices, default='collection agent', blank=True)
-#     first_name = models.CharField(max_length=255, blank=True)
-#     last_name = models.CharField(max_length=255, blank=True)
-#     email = models.EmailField(unique=True)
+class User(AbstractUser):
+    username = models.CharField(max_length=255, unique=True)  # Should be unique for AbstractUser
+    user_type_choices = (
+        ('admin', 'admin'),
+        ('super admin', 'super admin'),
+        ('sales agent', 'sales agent'),
+        ('collection agent', 'collection agent'),
+    )
+    user_type = models.CharField(max_length=255, choices=user_type_choices, default='collection agent', blank=True)
+    first_name = models.CharField(max_length=255, blank=True)
+    last_name = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(unique=True)
 
-#     USERNAME_FIELD = 'email'
-#     REQUIRED_FIELDS = ['username']  # Required when creating user via createsuperuser
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']  # Required when creating user via createsuperuser
 
-#     def __str__(self):
-#         return self.first_name or self.email
+    def __str__(self):
+        return self.first_name or self.email
 
-#     def save(self, *args, **kwargs):
-#         if self.email:
-#             user_name, _ = self.email.split('@', 1)
-#             if not self.first_name:
-#                 self.first_name = user_name
-#             if not self.username:
-#                 self.username = user_name
-#         super(User, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if self.email:
+            user_name, _ = self.email.split('@', 1)
+            if not self.first_name:
+                self.first_name = user_name
+            if not self.username:
+                self.username = user_name
+        super(User, self).save(*args, **kwargs)
 
 
 # Related model
@@ -53,8 +53,8 @@ phone_no_validator = RegexValidator(
 # Sale Punch Model
 class SalePunchModel(models.Model):
     # sp_fme = models.ForeignKey(FME_Model, on_delete=models.CASCADE, blank=True, null=True)
-    name = models.CharField(max_length=255)
     sp_fme = models.ForeignKey(FME_Model, on_delete=models.CASCADE, blank=True, null=True)
+    sp_fme = models.CharField(max_length=255, blank=True, null=True)
     sp_business_name = models.CharField(max_length=255, blank=True, null=True)
     sp_contact_no = models.CharField(max_length=10, null=True, blank=True, validators=[phone_no_validator])
     sp_email = models.EmailField(unique=True)
@@ -73,6 +73,7 @@ class SalePunchModel(models.Model):
         ('inactive', 'inactive'),
     )
     sp_status = models.CharField(max_length=255, choices=status_choices, default='active', blank=True, null=True)
+    sp_web_link = models.URLField(unique=True, null=True, blank=True)
 
     def __str__(self):
         return str(self.sp_email)

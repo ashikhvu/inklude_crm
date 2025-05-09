@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SalePunchModel
+from .models import SalePunchModel,FME_Model
 # from .models import User
 
 # class UserCreationSerializer(serializers.ModelSerializer):
@@ -7,15 +7,21 @@ from .models import SalePunchModel
 #         models = User
 #         fields = "__all__"
             
+class FME_ModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FME_Model
+        fields = "__all__"
+
 class SalePunchModelSerializer(serializers.ModelSerializer):
 
-    # sp_fme = UserCreationSerializer()
 
     class Meta:
-        models = SalePunchModel
+        model = SalePunchModel
         fields = "__all__"
+        
+    # sp_fme = FME_ModelSerializer()
 
     # def to_representation(self, instance):
     #     response = super().to_representation(instance)
-    #     response["sp_fme"] = UserCreationSerializer(instance.sp_fme).data
+    #     response["sp_fme"] = FME_ModelSerializer(instance.sp_fme).data
     #     return response
