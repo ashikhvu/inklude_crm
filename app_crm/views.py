@@ -2,11 +2,20 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import SalePunchModel
-from .serializers import SalePunchModelSerializer  # Ensure this matches your actual serializer
+from .serializers import SalePunchModelSerializer,CustomTokenObtainPairSerializer
 from django.http import JsonResponse
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 class SalePunchSubmit(APIView):
     
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTTokenUserAuthentication]
+
     def post(self, request):
         serializer = SalePunchModelSerializer(data=request.data)
         if serializer.is_valid():
