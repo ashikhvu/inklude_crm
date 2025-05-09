@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import SalePunchModel
 from .serializers import SalePunchModelSerializer  # Ensure this matches your actual serializer
+from django.http import JsonResponse
 
 class SalePunchSubmit(APIView):
     
@@ -19,3 +20,4 @@ class SalePunchSubmit(APIView):
             return Response({"error": "No data available right now"}, status=status.HTTP_404_NOT_FOUND)
         serializer = SalePunchModelSerializer(sp, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+

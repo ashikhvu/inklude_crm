@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import datetime
 from shortuuid.django_fields import ShortUUIDField
+from django.core.validators import FileExtensionValidator
 
 # Custom User Model
 class User(AbstractUser):
@@ -66,7 +67,7 @@ class SalePunchModel(models.Model):
     sp_discount_details = models.CharField(max_length=255, null=True, blank=True)
     sp_custom_review_filter = models.BooleanField(default=True)  # Removed null=True
     sp_additional_products = models.CharField(max_length=255, blank=True, null=True)
-    sp_logo = models.FileField(upload_to="logo/", blank=True, null=True)
+    sp_logo = models.FileField(upload_to="logo/", blank=True, null=True,validators=[FileExtensionValidator(allowed_extensions=['jpeg','jpg','png'])])
 
     status_choices = (
         ('active', 'active'),

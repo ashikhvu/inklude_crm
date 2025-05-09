@@ -1,11 +1,13 @@
 from rest_framework import serializers
 from .models import SalePunchModel,FME_Model
-# from .models import User
+from .models import User
+# from
 
-# class UserCreationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         models = User
-#         fields = "__all__"
+
+class UserCreationSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = User
+        fields = "__all__"
             
 class FME_ModelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,11 +16,10 @@ class FME_ModelSerializer(serializers.ModelSerializer):
 
 class SalePunchModelSerializer(serializers.ModelSerializer):
 
-
     class Meta:
         model = SalePunchModel
         fields = "__all__"
-        
+
     # sp_fme = FME_ModelSerializer()
 
     # def to_representation(self, instance):
