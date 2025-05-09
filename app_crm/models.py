@@ -65,14 +65,20 @@ class SalePunchModel(models.Model):
     sp_google_review_link = models.URLField(unique=True, null=True, blank=True)
     sp_gmap_link = models.URLField(unique=True, null=True, blank=True)
     sp_discount_details = models.CharField(max_length=255, null=True, blank=True)
-    sp_custom_review_filter = models.BooleanField(default=True)  # Removed null=True
+    sp_custom_review_filter_choices = (
+        ("Yes","Yes"),
+        ("No","No")
+    )
+    sp_custom_review_filter = models.CharField(max_length=255, null=True, blank=True,choices=sp_custom_review_filter_choices,default="Yes")  
     sp_additional_products = models.CharField(max_length=255, blank=True, null=True)
-    sp_logo = models.FileField(upload_to="logo/", blank=True, null=True,validators=[FileExtensionValidator(allowed_extensions=['jpeg','jpg','png'])])
+    # sp_logo = models.FileField(upload_to="logo/", blank=True, null=True,validators=[FileExtensionValidator(allowed_extensions=['jpeg','jpg','png'])])
+    sp_logo = models.ImageField(upload_to="logo", blank=True, null=True)
 
     status_choices = (
         ('active', 'active'),
         ('inactive', 'inactive'),
     )
+    
     sp_status = models.CharField(max_length=255, choices=status_choices, default='active', blank=True, null=True)
     sp_web_link = models.URLField(unique=True, null=True, blank=True)
 
