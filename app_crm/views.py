@@ -13,12 +13,12 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 class SalePunchSubmit(APIView):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
-    parser_classes = [MultiPartParser, FormParser]  # ✅ Required to handle file uploads
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+    parser_classes = (MultiPartParser, FormParser,JSONParser)  # ✅ Required to handle file uploads
 
     def post(self, request, format=None):
-        serializer = SalePunchModelSerializer(data=request.data,files=request.FILES)
+        serializer = SalePunchModelSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({"success": "Sale punch created successfully"}, status=status.HTTP_201_CREATED)

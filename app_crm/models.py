@@ -49,10 +49,15 @@ class FME_Model(models.Model):
 phone_no_validator = RegexValidator(
     regex=r'^\d{10}$',
     message='Please enter a valid 10 digit mobile number',
+
 )
+def nameFile(instance,filename):
+    return '/'.join(['images',str(instance.sp_business_name),filename])
 
 # Sale Punch Model
 class SalePunchModel(models.Model):
+
+
     # sp_fme = models.ForeignKey(FME_Model, on_delete=models.CASCADE, blank=True, null=True)
     sp_fme = models.ForeignKey(FME_Model, on_delete=models.CASCADE, blank=True, null=True)
     sp_fme = models.CharField(max_length=255, blank=True, null=True)
@@ -72,7 +77,7 @@ class SalePunchModel(models.Model):
     sp_custom_review_filter = models.CharField(max_length=255, null=True, blank=True,choices=sp_custom_review_filter_choices,default="Yes")  
     sp_additional_products = models.CharField(max_length=255, blank=True, null=True)
     # sp_logo = models.FileField(upload_to="logo/", blank=True, null=True,validators=[FileExtensionValidator(allowed_extensions=['jpeg','jpg','png'])])
-    sp_logo = models.ImageField(upload_to="logo", blank=True, null=True)
+    sp_logo = models.ImageField(upload_to=nameFile, max_length=500,blank=True, null=True)
 
     status_choices = (
         ('active', 'active'),

@@ -27,9 +27,9 @@ class FME_ModelSerializer(serializers.ModelSerializer):
 
 class SalePunchModelSerializer(serializers.ModelSerializer):
 
-    sp_logo = serializers.ImageField(
-        max_length=None, use_url=True,
-    )
+    # sp_logo = serializers.ImageField(
+    #     max_length=None, use_url=True,
+    # )
 
     class Meta:
         model = SalePunchModel

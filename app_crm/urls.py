@@ -8,7 +8,4 @@ urlpatterns = [
     path('user/token',views.CustomTokenObtainPairView.as_view(),name='CustomTokenObtainPairView'),
     path('user/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('sale_punch_submit', views.SalePunchSubmit.as_view(), name='sale_punch_submit'),
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
