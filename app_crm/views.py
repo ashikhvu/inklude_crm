@@ -31,3 +31,13 @@ class SalePunchSubmit(APIView):
             return Response({"error": "No data available right now"}, status=status.HTTP_404_NOT_FOUND)
         serializer = SalePunchModelSerializer(sp, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self,request,format=None):
+        id=request.POST.get(id=1)
+        sp = SalePunchModel.objects.all(id=id)
+        if not sp.exists():
+            return Response({"error" : "No data available right now"},status=status.HTTP_404_NOT_FOUND)
+        serializer = SalePunchModelSerializer(instance=sp)
+        if serializer.is_valid():
+            serializer.save()
+            return  Response({"success":"Changes Has been saved successfully"},status=status.HTTP_201_CREATED)

@@ -36,7 +36,6 @@ class User(AbstractUser):
                 self.username = user_name
         super(User, self).save(*args, **kwargs)
 
-
 # Related model
 class FME_Model(models.Model):
     name = models.CharField(max_length=255)
@@ -56,7 +55,6 @@ def nameFile(instance,filename):
 
 # Sale Punch Model
 class SalePunchModel(models.Model):
-
 
     # sp_fme = models.ForeignKey(FME_Model, on_delete=models.CASCADE, blank=True, null=True)
     sp_fme = models.ForeignKey(FME_Model, on_delete=models.CASCADE, blank=True, null=True)

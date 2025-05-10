@@ -9,11 +9,17 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token['username']=user.username
         token['user_type']= 1 if user.is_staff else 0
+        print(user.is_staff)
         return token
 
     def validate(self, attrs):
         attrs['username']=attrs.get('email')
-        return super().validate(attrs)
+        data = super().validate(attrs)
+        user_type = 1 if self.user.is_staff else 0
+        data.update({
+            "user_type": user_type
+        })
+        return data
 
 class UserCreationSerializer(serializers.ModelSerializer):
     class Meta:
