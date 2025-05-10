@@ -8,7 +8,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls,user):
         token = super().get_token(user)
         token['username']=user.username
-        token['user_type']=user.user_type
+        token['user_type']= 1 if user.user_type == 'admin' else 0
         return token
 
     def validate(self, attrs):
@@ -28,7 +28,7 @@ class FME_ModelSerializer(serializers.ModelSerializer):
 class SalePunchModelSerializer(serializers.ModelSerializer):
 
     sp_logo = serializers.ImageField(
-        max_length=None, use_url=True,
+        max_length=None, use_url=True,required=False,allow_null=True
     )
 
     class Meta:

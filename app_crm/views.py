@@ -11,11 +11,14 @@ from rest_framework.parsers import MultiPartParser,FormParser,FileUploadParser,J
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+    
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 class SalePunchSubmit(APIView):
-    # permission_classes = [IsAuthenticated]
-    # authentication_classes = [JWTAuthentication]
-    parser_classes = (MultiPartParser, FormParser,JSONParser)  # ✅ Required to handle file uploads
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def post(self, request, format=None):
         serializer = SalePunchModelSerializer(data=request.data)
@@ -24,7 +27,7 @@ class SalePunchSubmit(APIView):
             return Response({"success": "Sale punch created successfully"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request):
+    def get(self, request, format=None):
         sp = SalePunchModel.objects.all()
         if not sp.exists():
             return Response({"error": "No data available right now"}, status=status.HTTP_404_NOT_FOUND)
