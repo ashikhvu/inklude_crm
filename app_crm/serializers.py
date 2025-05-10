@@ -8,7 +8,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls,user):
         token = super().get_token(user)
         token['username']=user.username
-        token['user_type']= 1 if user.user_type == 'admin' else 0
+        token['user_type']= 1 if user.is_staff else 0
         return token
 
     def validate(self, attrs):
