@@ -15,10 +15,11 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 class SalePunchSubmit(APIView):
 
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def post(self, request, format=None):
+        print(request.user.id)
         serializer = SalePunchModelSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -27,6 +28,13 @@ class SalePunchSubmit(APIView):
 
     def get(self, request, format=None):
         sp = SalePunchModel.objects.all()
+        if request.POST.get('id'):
+            id = request.POST.get('id')
+            sp = SalePunchModel.objects.get(id=id)
+            if sp:
+                serializer = SalePunchModelSerializer(instance=sp)
+                return Response(serializer.data,status=status.HTTP_200_OK)
+
         if not sp.exists():
             return Response({"error": "No data available right now"}, status=status.HTTP_404_NOT_FOUND)
         serializer = SalePunchModelSerializer(sp, many=True)
@@ -37,7 +45,7 @@ class SalePunchSubmit(APIView):
         sp = SalePunchModel.objects.all(id=id)
         if not sp.exists():
             return Response({"error" : "No data available right now"},status=status.HTTP_404_NOT_FOUND)
-        serializer = SalePunchModelSerializer(instance=sp)
+        serializer = SalePunchModelSerializer(instance=sp,data=request.data)
         if serializer.is_valid():
             serializer.save()
             return  Response({"success":"Changes Has been saved successfully"},status=status.HTTP_201_CREATED)

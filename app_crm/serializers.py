@@ -17,7 +17,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
         user_type = 1 if self.user.is_staff else 0
         data.update({
-            "user_type": user_type
+            "user_type": user_type,
+            "first_name": self.user.first_name,
+            "last_name": self.user.first_name,
+            "email": self.user.email,
+            # "designation": self.user.designation,
         })
         return data
 

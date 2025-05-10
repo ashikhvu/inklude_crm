@@ -20,6 +20,11 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     email = models.EmailField(unique=True)
+    designation_choices = (
+        ("Agent","Agent"),
+        ("Field Executive","Field Executive")
+    )
+    designation = models.CharField(max_length=255,blank=True,null=True,default="Field Executive",choices=designation_choices)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']  # Required when creating user via createsuperuser
