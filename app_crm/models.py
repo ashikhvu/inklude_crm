@@ -9,11 +9,11 @@ from django.core.validators import FileExtensionValidator
 
 # Custom User Model
 class User(AbstractUser):
-    username = models.CharField(max_length=255, unique=True)  # Should be unique for AbstractUser
+    username = models.CharField(max_length=255)  # Should be unique for AbstractUser
     user_type_choices = (
         ('admin', 'admin'),
-        ('super admin', 'super admin'),
-        ('sales agent', 'sales agent'),
+        # ('super admin', 'super admin'),
+        # ('sales agent', 'sales agent'),
         ('collection agent', 'collection agent'),
     )
     user_type = models.CharField(max_length=255, choices=user_type_choices, default='collection agent', blank=True)
@@ -61,17 +61,16 @@ def nameFile(instance,filename):
 # Sale Punch Model
 class SalePunchModel(models.Model):
 
-    # sp_fme = models.ForeignKey(FME_Model, on_delete=models.CASCADE, blank=True, null=True)
-    sp_fme = models.ForeignKey(FME_Model, on_delete=models.CASCADE, blank=True, null=True)
+    # sp_fme_id = models.ForeignKey(FME_Model, on_delete=models.CASCADE, blank=True, null=True)
     sp_fme = models.CharField(max_length=255, blank=True, null=True)
     sp_business_name = models.CharField(max_length=255, blank=True, null=True)
     sp_contact_no = models.CharField(max_length=10, null=True, blank=True, validators=[phone_no_validator])
-    sp_email = models.EmailField(unique=True)
+    sp_email = models.EmailField()
     sp_whatsapp_no = models.CharField(max_length=10, null=True, blank=True, validators=[phone_no_validator])
-    sp_insta_link = models.URLField(unique=True, null=True, blank=True)
-    sp_fb_link = models.URLField(unique=True, null=True, blank=True)
-    sp_google_review_link = models.URLField(unique=True, null=True, blank=True)
-    sp_gmap_link = models.URLField(unique=True, null=True, blank=True)
+    sp_insta_link = models.URLField( null=True, blank=True)
+    sp_fb_link = models.URLField( null=True, blank=True)
+    sp_google_review_link = models.URLField( null=True, blank=True)
+    sp_gmap_link = models.URLField( null=True, blank=True)
     sp_discount_details = models.CharField(max_length=255, null=True, blank=True)
     sp_custom_review_filter_choices = (
         ("Yes","Yes"),
@@ -87,8 +86,8 @@ class SalePunchModel(models.Model):
         ('inactive', 'inactive'),
     )
     
-    sp_status = models.CharField(max_length=255, choices=status_choices, default='active', blank=True, null=True)
-    sp_web_link = models.URLField(unique=True, null=True, blank=True)
+    sp_status = models.CharField(max_length=255, choices=status_choices, default='inactive', blank=True, null=True)
+    sp_web_link = models.URLField( null=True, blank=True)
 
     def __str__(self):
         return str(self.sp_email)

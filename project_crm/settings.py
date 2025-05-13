@@ -64,8 +64,21 @@ REST_FRAMEWORK = {
     )
 }
 
+from datetime import timedelta
 
-# AUTH_USER_MODEL = "app_crm.SalePunchModel"
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),         # Access token validity
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),            # Refresh token validity
+    'ROTATE_REFRESH_TOKENS': False,                         # Set True if you want new refresh token on each refresh
+    'BLACKLIST_AFTER_ROTATION': True,                       # If using token blacklist
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,                              # Your Django SECRET_KEY
+    'AUTH_HEADER_TYPES': ('Bearer',),                       # Authorization: Bearer <token>
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+}
+
+
+AUTH_USER_MODEL = "app_crm.User"
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import SalePunchModel,FME_Model
+from .models import SalePunchModel
+from .models import FME_Model
 from .models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -17,11 +18,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
         user_type = 1 if self.user.is_staff else 0
         data.update({
+            "sp_fme": self.user.id,
             "user_type": user_type,
             "first_name": self.user.first_name,
-            "last_name": self.user.first_name,
+            "last_name": self.user.last_name,
             "email": self.user.email,
-            # "designation": self.user.designation,
+            "designation": self.user.designation,
         })
         return data
 
@@ -44,6 +46,7 @@ class SalePunchModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = SalePunchModel
         fields = "__all__"
+
 
     # sp_fme = FME_ModelSerializer()
 
